@@ -1,5 +1,5 @@
-(defconstant START 1)
-(defconstant STOP 101)
+(defconstant +start+ 1)
+(defconstant +stop+ 101)
 
 (defstruct hash-entry
     key
@@ -32,8 +32,8 @@
 (defun empty-to-nil (val)
     (if (string= "" val) nil val))
 
-(do ((i START (1+ i)))
-    ((= i STOP))
-    (setq val (create-fizzbuzz i))
-    (format t "~a~%" (or (empty-to-nil val) i)))
+(do ((i +start+ (1+ i)))
+    ((= i +stop+))
+    (format t "~a~%"
+        (or (empty-to-nil (create-fizzbuzz i)) i)))
 
