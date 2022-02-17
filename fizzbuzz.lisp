@@ -1,33 +1,17 @@
 (defconstant +start+ 1)
 (defconstant +stop+ 101)
 
-(defstruct hash-entry
-    key
-    value)
+(setf *mod-strings* '(
+    (3 . "fizz")
+    (5 . "buzz")))
 
-(defmacro init-hash (var entries)
-    `(progn
-        (setq ,var (make-hash-table))
-        (dolist (e ,entries)
-            (setf
-                (gethash
-                    (hash-entry-key e) ,var)
-                    (hash-entry-value e)))))
-
-(init-hash *str-vals* (list
-    (make-hash-entry :key 3 :value "fizz")
-    (make-hash-entry :key 5 :value "buzz")))
-
-(defun is-div (i v)
-    (= (mod i v) 0))
-
-(defmacro div-cond (i by)
-    `(if (is-div ,i ,by) (gethash ,by ,*str-vals*) ""))
+(defmacro string-for-mod (div i)
+    `(if (= (mod ,i ,div) 0) (cdr (assoc ,div *mod-strings*)) ""))
 
 (defun create-fizzbuzz (i)
     (concatenate 'string
-        (div-cond i 3)
-        (div-cond i 5)))
+        (string-for-mod 3 i)
+        (string-for-mod 5 i)))
 
 (defun empty-to-nil (val)
     (if (string= "" val) nil val))
